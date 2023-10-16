@@ -27,8 +27,11 @@
     margin: auto;
     cursor: pointer;
     button{
-        background-color: aliceblue;
+        background-color: transparent;
+        border: 0;
         margin-top: -4vh;
+        color: aliceblue;
+       
        
     }
 }
