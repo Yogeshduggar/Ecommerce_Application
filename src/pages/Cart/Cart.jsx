@@ -1,29 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Cart.scss"
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import  * as cdd from "../Cdata/Cdata.jsx"
 export const Cart = () => {
-    var data=[
-        {
-            id:1,
-            img: "https://images.pexels.com/photos/12675195/pexels-photo-12675195.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            img2: "https://images.pexels.com/photos/192448/pexels-photo-192448.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            title: "Woman Black Spaghetti Dress ",
-            isNew: true,
-            oldPrice: 1200,
-            price: 800,
-            desc:"Black Spaghetti Dress  Black Spaghetti Dress "
-        },
-        {
-            id:2,
-            img: "https://images.pexels.com/photos/4355702/pexels-photo-4355702.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            img2: "https://images.pexels.com/photos/4355503/pexels-photo-4355503.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            title: "Woman Blue Long Sleeve Dress",
-            isNew: false,
-            oldPrice: 1400,
-            price: 700,
-            desc:"Blue Long Sleeve Dress Blue Long Sleeve Dress"
-        }
-    ]
+
+   // const [data,setData]=useState(cdd.data)
+    var data =cdd.data
+    var total=0
+    {data.map(item=>(
+        total=total+item.price*item.quantity
+    ))}
+
+    function removed(item){
+        cdd.data.pop(item)        
+        //setData(data.pop(item))
+    }
   return (
     <div className="cart">
         <h1>Products in Cart </h1>
@@ -32,17 +23,19 @@ export const Cart = () => {
                 <img src={item.image} alt="" />
                 <div className="details">
                     <h2>{item.title}</h2>
-                    <p>{item.desc.substring(0,100)}</p>
+                    <p>{item.description}</p>
                     <div className="price">
-                        1x ${item.price}
+                        {item.quantity}x ${item.price}
                     </div>
                 </div>
-                <DeleteOutlinedIcon className='delete'/>
+                <button onClick={removed(item)}><DeleteOutlinedIcon className='delete'/></button>
+                
             </div>
+            
         ))}
 <div className="total">
     <span>SUBTOTAL</span>
-    <span>Rs 123</span>
+    <span>Rs {total*40}</span>
 </div>
 <button>Proceed To Checkout</button>
 <span className="reset">Reset Cart</span>

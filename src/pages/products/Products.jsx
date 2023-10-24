@@ -5,7 +5,7 @@ import { List } from '../List/List'
 export const Products = () => {
 
   const catId = parseInt(useParams().id);
-  const [maxPrice,setMaxPrice] = useState(10000);
+  const [maxPrice,setMaxPrice] = useState(1000);
   const [sort,setSort]= useState("")
   return (
     <div className="products">
@@ -29,7 +29,7 @@ export const Products = () => {
           <h2>Filter By Price</h2>
           <div className="inputItem">
             <span>0</span>
-          <input type="range" min={0} max={10000}  onChange={(e)=> setMaxPrice(e.target.value)}/>
+          <input type="range" min={0} max={1000}  onChange={(e)=> setMaxPrice(e.target.value)}/>
           <span>{maxPrice}</span>
           </div>
         </div>

@@ -17,7 +17,7 @@ const FeatureProducts = ({type}) => {
             return item;
         }
     }
-    //setProducts(products.filter(four))
+
     console.log("data")
     console.log(products)
     

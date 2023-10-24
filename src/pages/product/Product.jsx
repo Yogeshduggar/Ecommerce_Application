@@ -1,37 +1,60 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect} from 'react'
+import { useParams } from "react-router-dom";
 import "./Product.scss"
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import BalanceIcon from "@mui/icons-material/Balance";
+import  * as cdd from "../Cdata/Cdata.jsx"
 
 export const Product = () => {
+  const id = useParams().id;
+  console.log(id)
   const [img, setImg] = useState(0)
   const [qua, setQua] = useState(1)
   const images = [
     "https://images.pexels.com/photos/4355702/pexels-photo-4355702.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     "https://images.pexels.com/photos/4355503/pexels-photo-4355503.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
   ]
+
+  const [products,setProducts]=useState([]);
+  useEffect(()=>{
+      fetch(`https://fakestoreapi.com/products/${id}`)
+          .then(response => response.json())
+         // .then(data => console.log(data))
+          .then(data=> setProducts(data))
+          .catch(error => console.error(error));
+  },[])
+
+  function addp(item){
+    if(cdd.data.includes(item)){
+      item.quantity=qua;
+    }
+    else{
+    if(item.id>0){
+      item.quantity=qua
+    cdd.data.push(item);}
+    }
+  }
   return (
     <div className="product">
       <div className="left">
         <div className="images">
-          <img src={images[0]} alt="" onClick={(e) => setImg(0)} />
-          <img src={images[1]} alt="" onClick={(e) => setImg(1)} />
+          <img src={products.image} alt="" onClick={(e) => setImg(0)} />
         </div>
         <div className="mainImage">
-          <img src={images[img]} alt="" />
+          <img src={products.image} alt="" />
         </div>
       </div>
       <div className="right">
-        <h1>Title</h1>
-        <span className='price'>Rs 1200</span>
-        <p>orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        <h1>{products.title}</h1>
+        <span className='price'>Rs {products.price * 40}</span>
+        <p>{products.description}</p>
         <div className="quantity">
           <button onClick={() => setQua(prev => prev + 1)}>+</button>
          <p>{qua}</p>
           <button onClick={() => setQua((prev) => prev === 1 ? 1 : prev - 1)}>-</button>
           </div>
-          <button className='add'>
+          <button className='add' onClick={addp(products)}>
           <AddShoppingCartIcon /> Add To Cart
           </button>
           <div className="link">
